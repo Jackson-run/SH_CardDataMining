@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 def main():
-    file = open("/Users/wangrun/PycharmProjects/SHCardDataMining/data/data.txt")
+    file = open("/Users/wangrun/PycharmProjects/SH_CardDataMining/data/data.txt")
     linenum = 0
     while 1:
         line = file.readline()
