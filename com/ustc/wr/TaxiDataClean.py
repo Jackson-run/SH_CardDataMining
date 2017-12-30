@@ -10,6 +10,8 @@ def toweekday(x):
     return x.isoweekday()
 def tominutediv(x):
     return str(str(x.year)+"-"+str(x.month)+"-"+str(x.day)+"-"+str(x.hour)+"-"+str(x.minute/10+1))
+def tominutedi(x):
+    return str(x.minute/10+1)
 def toisweekend(x):
     if x.isoweekday()/5==0:
         return 0
@@ -47,6 +49,7 @@ def parse(path):
     Taxi_Data['minute']=Taxi_Data['recordtime'].map(tominute)
     Taxi_Data['weekday']=Taxi_Data['recordtime'].map(toweekday)
     Taxi_Data['Time_slot']=Taxi_Data['recordtime'].map(tominutediv)
+    Taxi_Data['time_div'] = Taxi_Data['recordtime'].map(tominutedi)
     Taxi_Data['isWeekend']=Taxi_Data['recordtime'].map(toisweekend)
     from sklearn.preprocessing import MinMaxScaler
     Scaler = MinMaxScaler()
@@ -76,7 +79,8 @@ def parse(path):
         lianjie=pd.concat([lianjie,c],axis=0,ignore_index=True)
     Taxi_Data['new']=pd.concat([Taxi_Data.Time_slot+'-'+Taxi_Data.Date],axis=1)
     final = pd.merge(Taxi_Data,lianjie,on='new',how='inner')
-    pd.DataFrame(final.drop(['new'],1)).to_csv('/Users/wangrun/data/Taxi-201504'+path[-6:-4]+'.csv')
+    pd.DataFrame(final.drop(['new', 'Date', 'Time', 'money', 'recordtime_x', 'day', 'minute', 'Time_slot'], 1)).to_csv(
+        '/Users/wangrun/data/Taxi-201504' + path[-6:-4] + '.csv')
 def main():
     for i in range(1,31):
         if i<10:
